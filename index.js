@@ -61,5 +61,5 @@ async function ask2(){
 }
 
 async function handle2(input){
-    console.log(input)
-}
+    //
+} 
