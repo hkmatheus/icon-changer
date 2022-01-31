@@ -4,6 +4,7 @@ import inquirer from 'inquirer';
 import figlet from 'figlet';
 import { createSpinner } from 'nanospinner';
 import LCUConnector from 'lcu-connector';
+import https from 'https';
 const connector = new LCUConnector();
 
 
@@ -61,5 +62,13 @@ async function ask2(){
 }
 
 async function handle2(input){
-    //
+    this.api = axios.create({
+        baseURL: `https://127.0.0.1:${credentials.port}`,
+        headers: {
+            'content-type': 'application/json',
+            'Authorization': `Basic ${Buffer.from(`${credentials.username}:${credentials.password}`)
+            .toString("base64")}`,
+        },
+        httpsAgent: agent
+    });
 } 
