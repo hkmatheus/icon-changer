@@ -8,8 +8,13 @@ const connector = new LCUConnector();
 
 
 const sleep = (ms = 2000) => new Promise((r) => setTimeout(r,ms));
+var credentials;
 
 async function welcome(){
+    connector.on('connect', (data) => {
+        credentials = data
+    });
+    connector.start();
     figlet('icon changer', function(err, data) {
         if (err) {
             console.log(err)
