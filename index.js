@@ -6,16 +6,20 @@ import { createSpinner } from 'nanospinner';
 import LCUConnector from 'lcu-connector';
 import https from 'https';
 const connector = new LCUConnector();
+const agent = new https.Agent({
+    rejectUnauthorized: false,
+});
 
 
 const sleep = (ms = 2000) => new Promise((r) => setTimeout(r,ms));
 var credentials;
 
+connector.on('connect', (data) => {
+    credentials = data
+});
+connector.start();
+
 async function welcome(){
-    connector.on('connect', (data) => {
-        credentials = data
-    });
-    connector.start();
     figlet('icon changer', function(err, data) {
         if (err) {
             console.log(err)
@@ -47,7 +51,7 @@ async function handle(input){
     if (input === 'Change icon'){
         await ask2()
     } else {
-        return
+        process.exit()
     }
 }
 
@@ -62,7 +66,8 @@ async function ask2(){
 }
 
 async function handle2(input){
-    this.api = axios.create({
+    var api;
+    api = axios.create({
         baseURL: `https://127.0.0.1:${credentials.port}`,
         headers: {
             'content-type': 'application/json',
@@ -71,4 +76,13 @@ async function handle2(input){
         },
         httpsAgent: agent
     });
+    api.put(`/lol-summoner/v1/current-summoner/icon`, {
+        'profileIconId':`${input}` 
+    }).then((response) => {
+        console.clear();
+        welcome();
+    }).catch((error) => {
+        console.clear();
+        welcome();
+    })
 } 
