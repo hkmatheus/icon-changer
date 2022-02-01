@@ -10,6 +10,7 @@ const agent = new https.Agent({
     rejectUnauthorized: false,
 });
 
+const spinner = createSpinner()
 
 const sleep = (ms = 2000) => new Promise((r) => setTimeout(r,ms));
 var credentials;
@@ -66,6 +67,7 @@ async function ask2(){
 }
 
 async function handle2(input){
+    spinner.start({ text: 'Making request', color: 'yellow' })
     var api;
     api = axios.create({
         baseURL: `https://127.0.0.1:${credentials.port}`,
@@ -79,10 +81,8 @@ async function handle2(input){
     api.put(`/lol-summoner/v1/current-summoner/icon`, {
         'profileIconId':`${input}` 
     }).then((response) => {
-        console.clear();
-        welcome();
+        spinner.success({ text: 'Successful!', mark: ':)' })
     }).catch((error) => {
-        console.clear();
-        welcome();
+        spinner.start({ text: 'Error', mark: ':(' })
     })
 } 
