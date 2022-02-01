@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "start": "node index.js",
-    "build": "nexe -r ;",
+    "build": "nexe -r .",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
