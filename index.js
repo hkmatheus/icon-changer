@@ -10,7 +10,7 @@ const agent = new https.Agent({
     rejectUnauthorized: false,
 });
 
-const spinner = createSpinner()
+const spinner = createSpinner();
 
 const sleep = (ms = 2000) => new Promise((r) => setTimeout(r,ms));
 var credentials;
